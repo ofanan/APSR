@@ -14,7 +14,7 @@ def calc_d (s):
 	denominator = math.log ( (n-k) / n)
 	return int ( math.ceil(nominator / denominator) )
 
-def calc_s_d_vecs (epsilon, k, n):	
+def calc_d_s_vecs (epsilon, k, n):	
 
 	if (k==0 or k==n):
 		print ('illegal value of k')
@@ -41,20 +41,20 @@ def calc_s_d_vecs (epsilon, k, n):
 	s = s[non_zero_indices]
 	return d, s
 
+def calc_d_s_pair (epsilon, k, max_s_times_d, n):
+	d, s = calc_d_s_vecs (epsilon, k, n)
+	s_times_d = np.multiply (s, d)
+
+	idx_of_highest_within_th = len ( [i for i in s_times_d if i <= max_s_times_d])-1
+	if (idx_of_highest_within_th >=0):
+	  return d[idx_of_highest_within_th], s[idx_of_highest_within_th]
+	else:
+	  return max_s_times_d, 1
+	
 # Inputs
 n = 1000; #total number of bins
 k = 500;  #num of free bins
 epsilon = 0.01 #acceptable decline rate
 max_s_times_d = 80
-d, s = calc_s_d_vecs (epsilon, k, n)
-# print ('s = ', s)
-# print ('d = ', d)
-s_times_d = np.multiply (s, d)
-# print (s_times_d)
-
-idx_of_highest_within_th = len ( [i for i in s_times_d if i <= max_s_times_d])-1
-if (idx_of_highest_within_th >=0):
-  chosen_s, chosen_d = s[idx_of_highest_within_th], d[idx_of_highest_within_th]
-else:
-  chosen_s, chosen_d = 1, max_s_times_d
+chosen_d, chosen_s = calc_d_s_pair (epsilon, k, max_s_times_d, n)
 print ('Chosen s is ', chosen_s, '. Chosen d is ', chosen_d)
