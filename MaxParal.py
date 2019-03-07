@@ -69,7 +69,7 @@ def check_E_H_s_cond_f ():
 # The function loops over 1<=s<=Smax, until finding the maximal s which still satisfies the SLA and the budget.
 # The d used is floor (budget / s).
 # The func' assumes that epsilon (n, k, s) is non-dec. in s.
-def comb_main (n, k, Smax, budget, target_epsilon):
+def MaxParal (n, k, Smax, budget, target_epsilon):
 	print ('Combinatorial analysis: n = ', n,', k = ', k,', budget = ', budget, ', max allowed epsilon = ', target_epsilon)
 	print ('**************************************************************************************')
 	
@@ -87,16 +87,22 @@ def comb_main (n, k, Smax, budget, target_epsilon):
 	else: 
 	    print ('Cannot provide SLA guarantees even with s=1')
 
+def Debug (n, k, Smax, budget, target_epsilon)	:
+	P = calc_P(Smax, Smax)
+	line = 20
+	print (P[line])
+	# Print_P (P, Smax)
+		
 # Main func', executed when only this file is run.
-# Defines parameters' values, and calls comb_main.		
+# Defines parameters' values, and calls MaxParal.		
 def main ():
-	n = 100 #total number of bins
-	k = 10;  #num of free bins
-	max_num_of_scheds = 12
+	n = 1000 #total number of bins
+	k = 200;  #num of free bins
+	max_num_of_scheds = k
 	budget = n
 	target_epsilon = 0.1
 
-	comb_main 	  (n, k, max_num_of_scheds, budget, target_epsilon)	# print ('New comb analysis: n = ', n, ' k = ', k, ' d = ', d)
+	MaxParal 	  (n, k, max_num_of_scheds, budget, target_epsilon)	
 	
 if __name__ == "__main__":
    # stuff only to run when not called via 'import' here
