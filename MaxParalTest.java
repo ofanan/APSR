@@ -6,7 +6,7 @@ import java.util.stream.*;
 import java.util.Arrays; 
 
 class MaxParal {
-  int[][] P; 
+  double[][] P; 
   int MAX_NUM_OF_SCHEDS = 4;
      
   // C'tor. the main effort of construction is allocating and filling the table P, defined as:
@@ -18,25 +18,40 @@ class MaxParal {
         System.exit(0);
     }
     this.MAX_NUM_OF_SCHEDS = max_num_of_scheds;
-    this.P = new int[MAX_NUM_OF_SCHEDS+1][MAX_NUM_OF_SCHEDS+1];
+    this.P = new double [MAX_NUM_OF_SCHEDS+1][MAX_NUM_OF_SCHEDS+1];
     
     int cur_a, cur_b; //loops iterators
+    for (cur_b = 0; cur_b <= MAX_NUM_OF_SCHEDS; cur_b++)
+      P[0][cur_b] =  1;   
     for (cur_a = 0; cur_a <= MAX_NUM_OF_SCHEDS; cur_a++)
-        Arrays.fill(this.P[cur_a], 1);
-    for (cur_a=1; cur_a<=this.MAX_NUM_OF_SCHEDS; cur_a++)
-        this.P[cur_a][2] = (int)Math.pow (2, cur_a+1)-1;
-    if (MAX_NUM_OF_SCHEDS <= 2)
-        return;
-    for (cur_b=3; cur_b<=this.MAX_NUM_OF_SCHEDS; cur_b++) {
+      P[cur_a][1] =  1;   
+    for (cur_b=2; cur_b<=this.MAX_NUM_OF_SCHEDS; cur_b++) {
         for (cur_a=1; cur_a<=this.MAX_NUM_OF_SCHEDS; cur_a++) {
-            this.P[cur_a][cur_b] = 0;
             for (int j=0; j<=cur_a; j++) {
                 this.P[cur_a][cur_b] += Math.pow (cur_b, j) * P[cur_a-j][cur_b-1];
             }
         }
     }
   }
+  
+  // For debug only. prints the matrix P. 
+  void print_P (int dummy) {
+    for (int i = 0; i <= this.MAX_NUM_OF_SCHEDS; i++) {
+      for (int j = 0; j <= this.MAX_NUM_OF_SCHEDS; j++) {
+        System.out.print(this.P[i][j] + " ");
+      }
+      System.out.println();
+    }  
+  }
 
+	void Debug (int dummy) {
+		int line = 20;
+		System.out.print("[");
+		for (int j = 0; j <= this.MAX_NUM_OF_SCHEDS; j++) {
+			System.out.print(this.P[line][j] + ", ");
+		}
+		System.out.print("]\n");
+	}
   // Calculate E[Hs | Fs=f] using the formula:
   // E[Hs | Fs=f] = k^{f-1} * \sum {h=1, 2, ... f} [ h*(k-1)!/*(k-h)! P(f-h, h) ]
   double calc_E_H_s_cond_f (int k, int f) {
@@ -98,10 +113,10 @@ class MaxParal {
     return 1 - E_H_s / s;
   }
   
-  // Used for debugging. Prints the pre-computed LUT P. 
-  void PrintP (int dummy) {
-    System.out.println(Arrays.deepToString(this.P));       
-  }
+  // // Used for debugging. Prints the pre-computed LUT P. 
+  // void PrintP (int dummy) {
+    // System.out.println(Arrays.deepToString(this.P));       
+  // }
   
   /* Class's main function. Does the following:
    1. Finds and prints all the pairs of (s,d) which satisfies the SLA and budget constraints.
@@ -126,7 +141,7 @@ class MaxParal {
         rtrn_s_d[1] = d;
     }
     System.out.println ("Maximum possible parallelism for this system: s = " +rtrn_s_d[0]+ ", d = " +rtrn_s_d[1]);
-      return rtrn_s_d; 
+    return rtrn_s_d; 
   }
   
 } 
@@ -140,13 +155,14 @@ public class MaxParalTest {
   3. Query max_paral for finding the highest value of s which still satisfies the SLA and budget requirements.
   */
   public static void main(String[] args) {
-      final int n = 100; //total number of hosts
-      int k = 50;  //num of hosts with enough available resources
+      final int n = 1000; //total number of hosts
+      int k = 200;  //num of hosts with enough available resources
       int max_num_of_scheds = k; //maximal number of schedulers to check
       int budget = n; //Total number of probes of hosts. Every configuration (s, d) should satisfy s*d <= budget
       double target_epsilon = 0.1; //acceptable decline rate, defined by the SLA
       
       MaxParal max_paral = new MaxParal (max_num_of_scheds);
       max_paral.main (n, k, max_num_of_scheds, budget, target_epsilon);
+      
   }
 }
