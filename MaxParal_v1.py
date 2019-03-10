@@ -87,11 +87,9 @@ def MaxParal (n, k, Smax, budget, target_epsilon):
 			break
 		s = s + 1
 		print (f's = {s} d = {budget // s} epsilon = {calculated_epsilon:.4f}')
-	if (s > 0):		
-		print (f'Maximum possible parallelism for this system: s = {s}, d = {budget // s}')
-	else:
-			print ('Cannot provide SLA guarantees even with s=1')
-			return
+	if (s == 0):		
+		print ('Cannot provide SLA guarantees even with s=1')
+		return
 			
 	# Now we know that s>0, 
 	# and s holds the maximal # of sched's which can be used at the given budget.
@@ -105,8 +103,8 @@ def MaxParal (n, k, Smax, budget, target_epsilon):
 		d = d - 1
 		
 	calculated_epsilon = calc_epsilon (n, k, s, d, P)
-	print (f's = {s} works also with d = {d}. epsilon = {calculated_epsilon:.4f}')
-		
+	print (f'Maximum possible parallelism for this system: s = {s}, d = {d}')
+	
 	
 
 def Debug (n, k, Smax, budget, target_epsilon)	:
