@@ -127,7 +127,7 @@ def MaxParalForAllK (n, Smax, budget, target_epsilon):
 	P = calc_P(Smax, Smax)
 	
 	for k in range (1, n+1):
-		while (s <= Smax):
+		while (s < Smax):
 			calculated_epsilon = calc_epsilon (n, k, s+1, budget // (s+1), P, Smax)
 			if (calculated_epsilon > target_epsilon):
 				break
