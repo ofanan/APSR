@@ -5,4 +5,4 @@ This project implements a part of the APSR (Adaptive Partial State Random) algor
 
 2. I. Cohen, G. Einziger, M. Goldstein, Y. Sa’ar, G. Scalosub, and E. Waisbard. [Parallel VM Deployment with Provable Guarantees](https://www.researchgate.net/profile/Itamar-Cohen-2/publication/351449290_Parallel_VM_Deployment_with_Provable_Guarantees/links/6098afaaa6fdccaebd1d82f5/Parallel-VM-Deployment-with-Provable-Guarantees.pdf), IFIP Networking, 2021, pp. 1-9.
 
-The project includes an implementation of the _MaximizeParallelism_ (Algorithm 2 in the above papers), which maximize the number of parallel VM placement schedulers, while providing success guarantees. The algorithm is implemented both in Java and in Python.
+The project includes an implementation of the _MaximizeParallelism_ (Algorithm 2 in the above papers), which maximizes the number of parallel VM placement schedulers, while providing success guarantees. The algorithm is implemented both in Java and in Python.
